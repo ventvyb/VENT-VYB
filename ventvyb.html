@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VENTVYB — Someone Is Listening</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0d0b;
+    --bg2: #161410;
+    --amber: #c98a2e;
+    --amber-light: #e8a840;
+    --amber-dim: #7a5018;
+    --text: #e8e0d0;
+    --text-muted: #7a7266;
+    --text-soft: #b0a898;
+    --border: rgba(201,138,46,0.18);
+    --border-soft: rgba(255,255,255,0.06);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-soft);
+    background: rgba(14,13,11,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 0.22em;
+    color: var(--amber-light);
+    text-decoration: none;
+  }
+
+  .nav-cta {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--text-soft);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-cta:hover { color: var(--amber-light); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3.2rem, 10vw, 7rem);
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 0.3em;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--text-soft);
+    margin-bottom: 3.5rem;
+    max-width: 480px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.65s forwards;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--amber);
+    color: #0e0d0b;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 1rem 2.8rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+
+  .hero-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--amber-dim), transparent);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 2.5rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--amber-light); }
+
+  .section-body {
+    font-size: 1rem;
+    color: var(--text-soft);
+    max-width: 560px;
+    line-height: 1.85;
+  }
+
+  /* HOW IT WORKS */
+  .steps {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0 2rem;
+    padding-bottom: 3rem;
+    position: relative;
+  }
+
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 27px;
+    top: 44px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--amber-dim), transparent);
+  }
+
+  .step-num {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .step-content { padding-top: 0.6rem; }
+
+  .step-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .step-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* PROMISE BLOCK */
+  .promise {
+    border: 1px solid var(--border);
+    padding: 3rem;
+    background: rgba(201,138,46,0.03);
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .promise-icon {
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+    display: block;
+    color: var(--amber);
+  }
+
+  .promise-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+
+  .promise-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* WHAT TO EXPECT */
+  .expects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    margin-top: 3.5rem;
+    border: 1px solid var(--border-soft);
+  }
+
+  .expect-card {
+    padding: 2rem 1.8rem;
+    background: var(--bg2);
+    border: none;
+    transition: background 0.3s;
+  }
+
+  .expect-card:hover { background: rgba(201,138,46,0.05); }
+
+  .expect-icon {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: block;
+    color: var(--amber);
+  }
+
+  .expect-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .expect-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* FULL WIDTH DIVIDER */
+  .full-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border-soft);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 2rem;
+    max-width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .disclaimer p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* FOOTER CTA */
+  .footer-cta {
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-cta .big-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-cta .big-text em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border-soft);
+    position: relative;
+    z-index: 1;
+  }
+
+  footer p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  footer .logo-sm {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--amber-dim);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  /* GLOW ORBS */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb-1 {
+    width: 500px; height: 500px;
+    background: rgba(201,138,46,0.07);
+    top: -100px; left: -100px;
+  }
+
+  .orb-2 {
+    width: 400px; height: 400px;
+    background: rgba(201,138,46,0.05);
+    bottom: 20%; right: -80px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .promise { padding: 2rem 1.5rem; }
+    .step { grid-template-columns: 44px 1fr; gap: 0 1.2rem; }
+    section { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">VENTVYB</a>
+  <a href="#book" class="nav-cta">Book a call</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-eyebrow">Anonymous · Global · Pay only if it helped</span>
+  <h1 class="hero-title">Someone is<br/><em>listening.</em></h1>
+  <p class="hero-sub">A real, private 1-on-1 call — anywhere in the world, anytime you need to be heard.</p>
+  <div class="hero-actions">
+    <a href="#book" class="btn-primary">Book a free call</a>
+    <span class="hero-note">No sign-up. No judgment. No bill if it didn't help.</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- WHAT IS THIS -->
+<section>
+  <span class="section-label">What is VENTVYB</span>
+  <h2 class="section-title">Not therapy.<br/>Just a <em>real human</em><br/>who will listen.</h2>
+  <p class="section-body">
+    Sometimes you don't need a diagnosis or a five-step plan. You just need someone to sit with you in it — no advice unless you want it, no clock ticking, no judgment. That's what VENTVYB is. A quiet space where you can say anything.
+  </p>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- HOW IT WORKS -->
+<section>
+  <span class="section-label">How it works</span>
+  <h2 class="section-title">Simple as it <em>should be.</em></h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <p class="step-title">Book a slot</p>
+        <p class="step-desc">Pick a time that works for you. No account needed, no personal details required. Just a name — any name — and a time.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <p class="step-title">We talk — privately</p>
+        <p class="step-desc">You get a private link. We connect anonymously. You talk, I listen. There's no script, no pressure, no agenda. Just a real conversation.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <p class="step-title">Pay what felt right — or nothing</p>
+        <p class="step-desc">After the call, if you feel even a little lighter, you can contribute whatever feels fair. If it didn't help, or you can't — you owe nothing. Zero.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMISE -->
+<div style="position: relative; z-index: 1; padding: 0 2rem; max-width: 860px; margin: 0 auto;">
+  <div class="promise">
+    <span class="promise-icon">◈</span>
+    <p class="promise-text">"You don't pay until<br/>you feel better. And if<br/>you don't — you never pay."</p>
+    <p class="promise-sub">This is the promise. Not a gimmick, not small print. If the call didn't help, close the tab. No invoice, no follow-up.</p>
+  </div>
+</div>
+
+<div class="full-divider" style="margin-top: 6rem;"></div>
+
+<!-- WHAT TO EXPECT -->
+<section>
+  <span class="section-label">What to expect</span>
+  <h2 class="section-title">A call that feels <em>different.</em></h2>
+
+  <div class="expects">
+    <div class="expect-card">
+      <span class="expect-icon">◎</span>
+      <p class="expect-title">Total anonymity</p>
+      <p class="expect-desc">No real names, no numbers shared. You're a voice. I'm a voice. That's all we need.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">◉</span>
+      <p class="expect-title">No advice unless asked</p>
+      <p class="expect-desc">I won't tell you what to do. I'll reflect, I'll sit with you, I'll ask the right questions.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">○</span>
+      <p class="expect-title">No time pressure</p>
+      <p class="expect-desc">The call ends when it feels right, not when a timer goes off.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">◐</span>
+      <p class="expect-title">Global. Any timezone.</p>
+      <p class="expect-desc">Feeling low at 3am in Tokyo or 2pm in Toronto — there's a slot for you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <p>
+    VENTVYB is peer support — not a licensed mental health service. The person you speak with is not a therapist or counselor. If you are in crisis or at risk, please contact a local helpline. A worldwide list is available at <strong style="color: var(--text-soft);">findahelpline.com</strong>
+  </p>
+</div>
+
+<!-- FOOTER CTA -->
+<div class="footer-cta" id="book">
+  <p class="big-text">Ready to<br/><em>let it out?</em></p>
+  <a href="https://cal.com/ventvyb" class="btn-primary">Book your call — it's free</a>
+  <p style="margin-top: 1.5rem; font-size: 0.78rem; color: var(--text-muted);">Pay only if it helped. Anonymous. No sign-up.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="logo-sm">VENTVYB</span>
+  <p>A quiet space for when you need to be heard. · ventvyb@gmail.com</p>
+</footer>
+
+</body>
+</html>
