@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VENTVYB — For Men Who Need to Be Heard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0c0e;
+    --bg2: #13151a;
+    --bg3: #0f1114;
+    --amber: #c07830;
+    --amber-light: #d98f42;
+    --amber-dim: #6a4218;
+    --blue-soft: #3a6fa0;
+    --text: #dde0e8;
+    --text-muted: #6a7080;
+    --text-soft: #9aa0b0;
+    --border: rgba(100,130,170,0.14);
+    --border-amber: rgba(192,120,48,0.2);
+    --border-soft: rgba(255,255,255,0.06);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; min-height: 100vh; overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.3rem 4rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-soft); background: rgba(11,12,14,0.88); backdrop-filter: blur(14px); }
+  .logo { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 1.1rem; letter-spacing: 0.24em; color: var(--amber-light); text-decoration: none; }
+  .nav-right { display: flex; align-items: center; gap: 2rem; }
+  .nav-badge { font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue-soft); border: 1px solid rgba(58,111,160,0.35); padding: 0.28rem 0.7rem; }
+  .nav-cta { font-size: 0.78rem; letter-spacing: 0.1em; color: var(--text-soft); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+  .nav-cta:hover { color: var(--amber-light); }
+
+  .eng-banner { position: relative; z-index: 1; background: rgba(192,120,48,0.06); border-top: 1px solid var(--border-amber); border-bottom: 1px solid var(--border-amber); padding: 1rem 2rem; text-align: center; margin-top: 62px; }
+  .eng-banner p { font-size: 0.76rem; color: var(--amber); letter-spacing: 0.16em; text-transform: uppercase; }
+  .eng-banner p span { color: var(--text-muted); text-transform: none; letter-spacing: 0; margin-left: 0.5rem; font-size: 0.72rem; }
+
+  .hero { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 5rem; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%); }
+
+  .hero-tags { display: flex; gap: 0.8rem; margin-bottom: 2.5rem; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+  .tag { font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.3rem 0.9rem; border: 1px solid; }
+  .tag-men { color: var(--blue-soft); border-color: rgba(58,111,160,0.4); background: rgba(46,92,138,0.08); }
+  .tag-eng { color: var(--amber); border-color: rgba(192,120,48,0.4); background: rgba(192,120,48,0.06); }
+  .tag-anon { color: var(--text-muted); border-color: rgba(255,255,255,0.1); }
+
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(3rem, 10vw, 7rem); line-height: 1.0; color: var(--text); margin-bottom: 0.25em; opacity: 0; animation: fadeUp 0.9s ease 0.35s forwards; }
+  .hero-title em { font-style: italic; color: var(--amber-light); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(1.05rem, 2.5vw, 1.45rem); color: var(--text-soft); margin-bottom: 3.5rem; max-width: 500px; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
+  .hero-actions { display: flex; flex-direction: column; align-items: center; gap: 1rem; opacity: 0; animation: fadeUp 0.9s ease 0.65s forwards; }
+
+  .btn-primary { display: inline-block; background: var(--amber); color: #0b0c0e; text-decoration: none; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; padding: 1rem 2.8rem; cursor: pointer; transition: background 0.3s, transform 0.2s; }
+  .btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+  .hero-note { font-size: 0.74rem; color: var(--text-muted); letter-spacing: 0.05em; }
+
+  .divider { width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--amber-dim), transparent); margin: 0 auto; position: relative; z-index: 1; }
+
+  section { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 6rem 2rem; }
+  .section-label { font-size: 0.67rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--amber); margin-bottom: 2.5rem; display: block; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; color: var(--text); margin-bottom: 1.5rem; }
+  .section-title em { font-style: italic; color: var(--amber-light); }
+  .section-body { font-size: 0.97rem; color: var(--text-soft); max-width: 560px; line-height: 1.85; }
+
+  .stat-strip { position: relative; z-index: 1; background: var(--bg2); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .stat-item { padding: 2.5rem 2rem; border-right: 1px solid var(--border-soft); text-align: center; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--amber-light); display: block; line-height: 1; margin-bottom: 0.4rem; }
+  .stat-label { font-size: 0.76rem; color: var(--text-muted); line-height: 1.55; max-width: 160px; margin: 0 auto; }
+
+  .why-men { background: var(--bg2); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); position: relative; z-index: 1; padding: 6rem 2rem; }
+  .why-men-inner { max-width: 860px; margin: 0 auto; }
+  .why-points { margin-top: 3rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-point { display: grid; grid-template-columns: 28px 1fr; gap: 0 1.2rem; align-items: start; }
+  .why-dot { width: 28px; height: 28px; border: 1px solid var(--border-amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--amber); font-size: 0.6rem; flex-shrink: 0; margin-top: 0.2rem; }
+  .why-text { font-size: 0.92rem; color: var(--text-soft); line-height: 1.8; }
+  .why-text strong { color: var(--text); font-weight: 500; }
+
+  .quotes-section { position: relative; z-index: 1; padding: 6rem 2rem; background: var(--bg3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+  .quotes-inner { max-width: 860px; margin: 0 auto; }
+  .quotes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1px; margin-top: 3.5rem; background: var(--border-soft); }
+  .quote-card { background: var(--bg3); padding: 2.5rem 2rem; transition: background 0.3s; }
+  .quote-card:hover { background: rgba(46,92,138,0.07); }
+  .quote-mark { font-family: 'Cormorant Garamond', serif; font-size: 4rem; line-height: 0.6; color: var(--amber-dim); display: block; margin-bottom: 1.2rem; opacity: 0.5; }
+  .quote-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: 1.12rem; color: var(--text); line-height: 1.62; margin-bottom: 1.2rem; }
+  .quote-attr { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+
+  .big-quote { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 5rem 2rem; }
+  .big-quote-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(1.5rem, 4vw, 2.4rem); line-height: 1.4; color: var(--text); border-left: 2px solid var(--amber); padding-left: 2rem; margin-bottom: 1rem; }
+  .big-quote-attr { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber-dim); padding-left: 2rem; }
+
+  .steps { margin-top: 4rem; display: flex; flex-direction: column; gap: 0; }
+  .step { display: grid; grid-template-columns: 56px 1fr; gap: 0 2rem; padding-bottom: 3rem; position: relative; }
+  .step:not(:last-child)::before { content: ''; position: absolute; left: 27px; top: 44px; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--amber-dim), transparent); }
+  .step-num { width: 56px; height: 56px; border: 1px solid var(--border-amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--amber); flex-shrink: 0; }
+  .step-content { padding-top: 0.6rem; }
+  .step-title { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.75; }
+
+  .promise { border: 1px solid var(--border-amber); padding: 3rem; background: rgba(192,120,48,0.03); text-align: center; margin: 2rem 0; }
+  .promise-icon { font-size: 1.5rem; margin-bottom: 1.2rem; display: block; color: var(--amber); }
+  .promise-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(1.25rem, 3vw, 1.75rem); color: var(--text); line-height: 1.4; margin-bottom: 1rem; }
+  .promise-sub { font-size: 0.83rem; color: var(--text-muted); max-width: 420px; margin: 0 auto; }
+
+  .full-divider { width: 100%; height: 1px; background: var(--border-soft); position: relative; z-index: 1; }
+
+  .expects { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; margin-top: 3.5rem; background: var(--border-soft); }
+  .expect-card { padding: 2rem 1.8rem; background: var(--bg); transition: background 0.3s; }
+  .expect-card:hover { background: rgba(46,92,138,0.06); }
+  .expect-icon { font-size: 1rem; margin-bottom: 1rem; display: block; color: var(--amber); }
+  .expect-title { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
+  .expect-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+
+  .disclaimer { background: var(--bg2); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); padding: 2rem; text-align: center; position: relative; z-index: 1; }
+  .disclaimer p { font-size: 0.74rem; color: var(--text-muted); max-width: 620px; margin: 0 auto; line-height: 1.85; }
+
+  .footer-cta { text-align: center; padding: 8rem 2rem; position: relative; z-index: 1; }
+  .footer-cta .big-text { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1.1; color: var(--text); margin-bottom: 2.5rem; }
+  .footer-cta .big-text em { font-style: italic; color: var(--amber-light); }
+
+  footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border-soft); position: relative; z-index: 1; }
+  footer p { font-size: 0.74rem; color: var(--text-muted); letter-spacing: 0.06em; }
+  footer .logo-sm { font-size: 0.85rem; letter-spacing: 0.22em; color: var(--amber-dim); font-weight: 500; display: block; margin-bottom: 0.5rem; }
+
+  .orb { position: fixed; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: 0; }
+  .orb-1 { width: 600px; height: 600px; background: rgba(46,92,138,0.07); top: -150px; right: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(192,120,48,0.05); bottom: 20%; left: -80px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 640px) {
+    nav { padding: 1.1rem 1.5rem; }
+    .nav-badge { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .promise { padding: 2rem 1.5rem; }
+    .step { grid-template-columns: 44px 1fr; gap: 0 1.2rem; }
+    .stat-strip { grid-template-columns: 1fr 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border-soft); }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">VENTVYB</a>
+  <div class="nav-right">
+    <span class="nav-badge">Men Only · English</span>
+    <a href="#book" class="nav-cta">Book a call</a>
+  </div>
+</nav>
+
+<!-- ENGLISH ONLY BANNER -->
+<div class="eng-banner">
+  <p>🌐 English speaking only <span>— Calls conducted in English. Men from anywhere in the world are welcome.</span></p>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tags">
+    <span class="tag tag-men">For Men Only</span>
+    <span class="tag tag-eng">English Speaking</span>
+    <span class="tag tag-anon">100% Anonymous</span>
+  </div>
+  <h1 class="hero-title">Finally,<br/>someone <em>listening</em><br/>to you.</h1>
+  <p class="hero-sub">A private 1-on-1 call for men who are feeling low and just need to talk — no judgment, no advice unless you want it, no labels.</p>
+  <div class="hero-actions">
+    <a href="#book" class="btn-primary">Book your free call</a>
+    <span class="hero-note">Anonymous · Pay only if it helped · Men worldwide</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- STATS -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <span class="stat-num">3×</span>
+    <p class="stat-label">Men are 3x more likely to die by suicide than women</p>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">1 in 8</span>
+    <p class="stat-label">Men worldwide live with a mental health condition — most never talk about it</p>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">40%</span>
+    <p class="stat-label">Of men say they have nobody to talk to when they're feeling low</p>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">0</span>
+    <p class="stat-label">Times you've been told it's okay to just talk — until now</p>
+  </div>
+</div>
+
+<!-- WHY MEN ONLY -->
+<div class="why-men">
+  <div class="why-men-inner">
+    <span class="section-label">Why men only</span>
+    <h2 class="section-title">Because the world taught<br/>you to <em>handle it.</em></h2>
+    <div class="why-points">
+      <div class="why-point">
+        <div class="why-dot">◆</div>
+        <p class="why-text"><strong>Men are raised to be strong, not heard.</strong> From childhood, most men learn that vulnerability is weakness — that feelings should be buried, not spoken. VENTVYB exists because that belief is costing lives.</p>
+      </div>
+      <div class="why-point">
+        <div class="why-dot">◆</div>
+        <p class="why-text"><strong>Most support spaces feel designed for someone else.</strong> Men often feel out of place in mixed or clinical settings. This is a space built specifically for you — where you don't have to perform or explain yourself.</p>
+      </div>
+      <div class="why-point">
+        <div class="why-dot">◆</div>
+        <p class="why-text"><strong>Reaching out is the hardest and bravest thing.</strong> Picking up and saying "I'm not okay" takes real strength. This space was built out of respect for that courage.</p>
+      </div>
+      <div class="why-point">
+        <div class="why-dot">◆</div>
+        <p class="why-text"><strong>Men only — no mixed dynamic.</strong> Fully anonymous, fully male. A space where you can be real without an audience. No filter required.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTES -->
+<div class="quotes-section">
+  <div class="quotes-inner">
+    <span class="section-label">What nobody tells men</span>
+    <h2 class="section-title">Words that hit <em>different.</em></h2>
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">The strongest thing a man can do is cry. It's not weakness — it's the courage to be real.</p>
+        <span class="quote-attr">— Kanye West</span>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">We teach boys to suppress emotions and then act surprised when men suffer in silence.</p>
+        <span class="quote-attr">— On masculinity</span>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">Men are dying of loneliness — not the kind you can see. The kind that hides behind "I'm fine."</p>
+        <span class="quote-attr">— Men's health research</span>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">There is no man who doesn't need to be heard. There is only a man who hasn't been given the space.</p>
+        <span class="quote-attr">— VENTVYB</span>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">Boys are taught to be soldiers before they're taught to be human. No wonder so many are fighting a war no one can see.</p>
+        <span class="quote-attr">— VENTVYB</span>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">Asking for help is not giving up. It's refusing to. That's strength — with a different name.</p>
+        <span class="quote-attr">— Unknown</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BIG QUOTE -->
+<div class="big-quote">
+  <p class="big-quote-text">"The lonely man doesn't lack company.<br/>He lacks someone who actually listens."</p>
+  <span class="big-quote-attr">— VENTVYB</span>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- WHAT IS THIS -->
+<section>
+  <span class="section-label">What is VENTVYB</span>
+  <h2 class="section-title">Not therapy.<br/>Just a human<br/>who <em>won't judge you.</em></h2>
+  <p class="section-body">You don't need a diagnosis. You don't need to be in crisis. You just need to talk — and not be told how to feel about it. VENTVYB is a private, anonymous call where you say whatever is on your chest, and someone actually listens. No labels. No advice unless you ask. No bill if it didn't help.</p>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- HOW IT WORKS -->
+<section>
+  <span class="section-label">How it works</span>
+  <h2 class="section-title">Simple as it <em>should be.</em></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <p class="step-title">Book a slot — any name, no details</p>
+        <p class="step-desc">Pick a time that works for you. Use any name — no account, no personal info required. You'll receive a confirmation with your call details by email.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <p class="step-title">We talk — via Zoom or Google Meet</p>
+        <p class="step-desc">You'll receive a Zoom or Google Meet link before your call. Join anonymously — no real name needed. No script, no agenda. You talk when you're ready. Silence is fine too.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <p class="step-title">Pay only if you feel better — via USDT crypto</p>
+        <p class="step-desc">If the call helped, simply email us at ventvyb@gmail.com to let us know you'd like to pay. We'll send a USDT wallet QR code straight to your inbox. Pay whatever feels right — or nothing at all if it didn't help. Zero pressure, zero follow-up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMISE -->
+<div style="position: relative; z-index: 1; padding: 0 2rem; max-width: 860px; margin: 0 auto;">
+  <div class="promise">
+    <span class="promise-icon">◈</span>
+    <p class="promise-text">"You don't pay until you feel better.<br/>If you don't feel better — you never pay."</p>
+    <p class="promise-sub">Not a gimmick. Not small print. If the call didn't help, walk away. No invoice, no follow-up, nothing. If it did help — just email us and we'll send you a USDT crypto QR code. Simple.</p>
+  </div>
+</div>
+
+<div class="full-divider" style="margin-top: 6rem;"></div>
+
+<!-- WHAT TO EXPECT -->
+<section>
+  <span class="section-label">What to expect</span>
+  <h2 class="section-title">A call that feels <em>different.</em></h2>
+  <div class="expects">
+    <div class="expect-card">
+      <span class="expect-icon">◎</span>
+      <p class="expect-title">Total anonymity</p>
+      <p class="expect-desc">No real names. No numbers shared. You're a voice. I'm a voice. That's enough.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">◉</span>
+      <p class="expect-title">No advice unless asked</p>
+      <p class="expect-desc">No lectures. No 5-step plans. Just listened to, reflected back, understood.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">○</span>
+      <p class="expect-title">No time pressure</p>
+      <p class="expect-desc">The call ends when it feels right — not when a timer cuts you off mid-sentence.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">◐</span>
+      <p class="expect-title">Global — any timezone</p>
+      <p class="expect-desc">3am in Dubai or 11pm in New York — there's a slot available for you.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">◑</span>
+      <p class="expect-title">English only</p>
+      <p class="expect-desc">All calls are in English. Men from any country in the world are welcome.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">◍</span>
+      <p class="expect-title">Men only</p>
+      <p class="expect-desc">A space where men talk to men. No performance. No filter needed. Just real.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">⬡</span>
+      <p class="expect-title">Zoom or Google Meet</p>
+      <p class="expect-desc">Calls happen on Zoom or Google Meet. A link is sent to you before the call — no app account required to join.</p>
+    </div>
+    <div class="expect-card">
+      <span class="expect-icon">◫</span>
+      <p class="expect-title">Pay via USDT crypto</p>
+      <p class="expect-desc">If you felt helped, email us. We send a USDT wallet QR code to your inbox. You scan and pay what feels right. Private, borderless, no middleman.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT INFO SECTION -->
+<div style="position: relative; z-index: 1; background: var(--bg2); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); padding: 5rem 2rem;">
+  <div style="max-width: 860px; margin: 0 auto;">
+    <span class="section-label">How payment works</span>
+    <h2 class="section-title" style="margin-bottom: 1rem;">Private. Borderless.<br/><em>Only if it helped.</em></h2>
+    <p class="section-body" style="margin-bottom: 3rem;">We accept payment exclusively in <strong style="color: var(--text); font-weight: 500;">USDT (Tether)</strong> — a stable cryptocurrency pegged to the US dollar. It works the same anywhere in the world, with no bank involved and no personal data exposed.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border-soft);">
+      <div style="background: var(--bg2); padding: 2rem 1.8rem;">
+        <p style="font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.8rem;">Step 1</p>
+        <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem;">Finish your call</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.7;">Have your session. If you feel lighter after, that's when the next step matters.</p>
+      </div>
+      <div style="background: var(--bg2); padding: 2rem 1.8rem;">
+        <p style="font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.8rem;">Step 2</p>
+        <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem;">Email us to say you'd like to pay</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.7;">Drop a message to <strong style="color: var(--text-soft);">ventvyb@gmail.com</strong> — just say "I'd like to pay." That's all we need.</p>
+      </div>
+      <div style="background: var(--bg2); padding: 2rem 1.8rem;">
+        <p style="font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.8rem;">Step 3</p>
+        <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem;">We send your QR code</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.7;">We reply with a USDT wallet QR code. Scan it in any crypto wallet app and send whatever feels right.</p>
+      </div>
+      <div style="background: var(--bg2); padding: 2rem 1.8rem;">
+        <p style="font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 0.8rem;">Step 4</p>
+        <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem;">Done — nothing else</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.7;">No receipt required, no confirmation needed. The transaction speaks for itself. No follow-up from us.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem 2rem; border: 1px solid var(--border-amber); background: rgba(192,120,48,0.04);">
+      <p style="font-size: 0.8rem; color: var(--amber); letter-spacing: 0.06em;">💡 Don't have USDT yet? Apps like <strong>Binance, Coinbase, Trust Wallet</strong> or <strong>Bybit</strong> let you buy USDT in minutes using a card or bank transfer — available worldwide.</p>
+    </div>
+
+    <!-- PAY WHAT YOU WISH -->
+    <div style="margin-top: 2rem; border: 1px solid var(--border-soft); padding: 2.5rem; text-align: center; background: rgba(255,255,255,0.02);">
+      <p style="font-size: 0.67rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--amber); margin-bottom: 1rem;">No minimum. No maximum.</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(1.2rem, 3vw, 1.7rem); color: var(--text); line-height: 1.5; margin-bottom: 1rem;">"Pay whatever feels right to you — $1 or $1,000,000. There is no correct amount. Only what the call was worth to you, in your heart."</p>
+      <p style="font-size: 0.8rem; color: var(--text-muted); max-width: 480px; margin: 0 auto;">No pressure, no suggested amount, no judgment. You decide — completely on your own terms, after the call.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 51% CHARITY SECTION -->
+<div style="position: relative; z-index: 1; background: var(--bg3); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); padding: 6rem 2rem;">
+  <div style="max-width: 860px; margin: 0 auto; text-align: center;">
+
+    <span class="section-label">Where your payment goes</span>
+    <h2 class="section-title" style="text-align: center;">More than a call.<br/><em>A cause.</em></h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--border-soft); margin: 3rem 0; text-align: left;">
+
+      <div style="background: var(--bg3); padding: 2.5rem 2rem; text-align: center;">
+        <p style="font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; color: var(--amber-light); line-height: 1; margin-bottom: 0.5rem;">49%</p>
+        <p style="font-size: 0.82rem; font-weight: 500; color: var(--text); margin-bottom: 0.4rem;">Keeps VENTVYB running</p>
+        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.7;">Covers the time, care and energy that goes into every single call.</p>
+      </div>
+
+      <div style="background: rgba(192,120,48,0.05); padding: 2.5rem 2rem; text-align: center; border: 1px solid var(--border-amber);">
+        <p style="font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; color: var(--amber-light); line-height: 1; margin-bottom: 0.5rem;">51%</p>
+        <p style="font-size: 0.82rem; font-weight: 500; color: var(--text); margin-bottom: 0.4rem;">Goes to charity</p>
+        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.7;">More than half of every payment is donated to men's mental health and wellbeing causes worldwide.</p>
+      </div>
+
+    </div>
+
+    <div style="border: 1px solid var(--border-amber); padding: 2rem 2.5rem; background: rgba(192,120,48,0.03); max-width: 580px; margin: 0 auto;">
+      <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--text); line-height: 1.6; margin-bottom: 0.8rem;">"When you pay what you felt the call was worth — no matter how small — more than half of it goes towards helping another man who might not be able to afford any support at all."</p>
+      <p style="font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber-dim);">— VENTVYB</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<!-- WHY I STARTED THIS -->
+<div style="position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 6rem 2rem;">
+  <span class="section-label">Why this exists</span>
+  <h2 class="section-title">Built by someone who<br/><em>gets it.</em></h2>
+  <div style="border-left: 2px solid var(--amber); padding-left: 2rem; max-width: 580px;">
+    <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: var(--text); line-height: 1.7; margin-bottom: 1.2rem;">"I know what it feels like to carry something heavy and have nobody to call. Not because people didn't care — but because I never felt like I could say it out loud. I started VENTVYB because no man should have to sit alone with that weight."</p>
+    <p style="font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber-dim);">— Founder, VENTVYB</p>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- TESTIMONIALS NOTE -->
+<div style="position: relative; z-index: 1; background: var(--bg2); border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); padding: 3rem 2rem; text-align: center;">
+  <div style="max-width: 580px; margin: 0 auto;">
+    <span class="section-label" style="display: block; margin-bottom: 1rem;">What callers say</span>
+    <div style="border: 1px solid var(--border-amber); padding: 2rem 2.5rem; background: rgba(192,120,48,0.03);">
+      <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--text); line-height: 1.6; margin-bottom: 1rem;">"We will never share what is said on a call — not even anonymously. What happens in VENTVYB stays in VENTVYB. Always."</p>
+      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.75;">Testimonials are intentionally not published here. Every caller's experience is private and will remain that way. Your words, your pain, your progress — none of it will ever be shared, quoted, or used publicly. That is our promise.</p>
+    </div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- FAQ SECTION -->
+<div style="position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 6rem 2rem;">
+  <span class="section-label">Frequently asked</span>
+  <h2 class="section-title">Questions men<br/><em>actually ask.</em></h2>
+
+  <div style="display: flex; flex-direction: column; gap: 1px; margin-top: 3rem; background: var(--border-soft);">
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">Is this actually anonymous?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">Yes. You join using any name you want — or no name at all. We don't ask for your real name, your location, or any personal details. Your email is only used to send you the Zoom link and nothing else.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">What if I cry or get emotional?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">That's the whole point. There's no embarrassment here. Crying means something is being felt that needed to be felt. You won't be judged — not even slightly.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">Do I have to talk the whole time?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">No. Silence is fine. You can take your time. There's no script and no pressure to fill every second. Talk when you're ready — or just sit with it for a bit first.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">Will you give me advice or tell me what to do?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">Only if you ask for it. Otherwise the job is to listen, reflect, and make you feel heard — not to fix you or hand you a list of steps. You know yourself better than anyone.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">How long is the call?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">Around 45 minutes — but the call ends when it feels right, not when a timer cuts you off. We won't rush you.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">What if I genuinely can't afford to pay?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">Then you don't. No follow-up, no awkwardness, no guilt. The whole model is built around this — your wellbeing comes first. Pay only if you felt it helped and only what feels right to you.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">Is this therapy?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">No. VENTVYB is peer support — a real human listener, not a licensed professional. If you're in crisis or need clinical help, we'll always point you to the right resources. But if you just need to talk to someone who won't judge you — that's exactly what this is.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">Will anything I say be recorded or shared?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">Never. Calls are not recorded. Nothing you say will ever be shared, quoted, or used in any way. What you say stays between you and the listener. Full stop.</p>
+    </div>
+
+    <div style="background: var(--bg); padding: 1.8rem 2rem;">
+      <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.6rem;">I've never done anything like this. Is that okay?</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.75;">That's most people who reach out. You don't need experience with therapy or talking about feelings. You just need to show up. That part alone takes more courage than most people realise — and it's enough.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<div class="disclaimer">
+  <p>VENTVYB is peer emotional support — not a licensed mental health, therapy, or counseling service. The person you speak with is not a therapist, psychiatrist, or crisis worker. If you are in immediate danger or experiencing a mental health emergency, please contact a crisis line in your country. A worldwide list is available at <strong style="color: var(--text-soft);">findahelpline.com</strong></p>
+</div>
+
+<!-- FOOTER CTA -->
+<!-- GET IN TOUCH SECTION -->
+<div style="position: relative; z-index: 1; background: var(--bg2); border-top: 1px solid var(--border-soft); padding: 6rem 2rem;" id="book">
+  <div style="max-width: 860px; margin: 0 auto;">
+
+    <span class="section-label">Get in touch</span>
+    <h2 class="section-title">Ready to talk?<br/><em>Here's how.</em></h2>
+    <p class="section-body" style="margin-bottom: 3.5rem;">Fill the form and we'll send you a Zoom link and confirm your time by email. Or reach us on any platform below.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border-soft); margin-bottom: 1px;">
+
+      <a href="https://forms.gle/DHAd3WGhCjCm5wqk8" target="_blank" style="text-decoration: none; background: var(--bg); padding: 2rem 1.8rem; display: block; transition: background 0.3s;" onmouseover="this.style.background='rgba(192,120,48,0.06)'" onmouseout="this.style.background='var(--bg)'">
+        <div style="width: 44px; height: 44px; border: 1px solid var(--border-amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c07830" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.4rem;">Fill the intake form</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem;">Tell us what's going on and when you're free. We'll send your Zoom link by email within 24 hours.</p>
+        <span style="font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber);">Open form →</span>
+      </a>
+
+      <a href="mailto:ventvyb@gmail.com" style="text-decoration: none; background: var(--bg); padding: 2rem 1.8rem; display: block; transition: background 0.3s;" onmouseover="this.style.background='rgba(192,120,48,0.06)'" onmouseout="this.style.background='var(--bg)'">
+        <div style="width: 44px; height: 44px; border: 1px solid var(--border-amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c07830" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        </div>
+        <p style="font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.4rem;">Email us directly</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem;">Prefer to just write to us? We reply to every email personally.</p>
+        <span style="font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber);">ventvyb@gmail.com →</span>
+      </a>
+
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--border-soft); margin-bottom: 4rem;">
+
+      <a href="https://www.instagram.com/ventvyb/" target="_blank" style="text-decoration: none; background: var(--bg); padding: 1.5rem 1.8rem; display: flex; align-items: center; gap: 1rem; transition: background 0.3s;" onmouseover="this.style.background='rgba(192,120,48,0.06)'" onmouseout="this.style.background='var(--bg)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c07830" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#c07830" stroke="none"/></svg>
+        <div>
+          <p style="font-size: 0.82rem; font-weight: 500; color: var(--text); margin: 0;">Instagram</p>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0;">@ventvyb</p>
+        </div>
+      </a>
+
+      <a href="https://x.com/VENTVYB" target="_blank" style="text-decoration: none; background: var(--bg); padding: 1.5rem 1.8rem; display: flex; align-items: center; gap: 1rem; transition: background 0.3s;" onmouseover="this.style.background='rgba(192,120,48,0.06)'" onmouseout="this.style.background='var(--bg)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#c07830"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <div>
+          <p style="font-size: 0.82rem; font-weight: 500; color: var(--text); margin: 0;">X (Twitter)</p>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0;">@VENTVYB</p>
+        </div>
+      </a>
+
+      <a href="https://www.reddit.com/user/VENTVYB/" target="_blank" style="text-decoration: none; background: var(--bg); padding: 1.5rem 1.8rem; display: flex; align-items: center; gap: 1rem; transition: background 0.3s;" onmouseover="this.style.background='rgba(192,120,48,0.06)'" onmouseout="this.style.background='var(--bg)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#c07830"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+        <div>
+          <p style="font-size: 0.82rem; font-weight: 500; color: var(--text); margin: 0;">Reddit</p>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0;">u/VENTVYB</p>
+        </div>
+      </a>
+
+      <a href="https://www.tiktok.com/@vent.vyb" target="_blank" style="text-decoration: none; background: var(--bg); padding: 1.5rem 1.8rem; display: flex; align-items: center; gap: 1rem; transition: background 0.3s;" onmouseover="this.style.background='rgba(192,120,48,0.06)'" onmouseout="this.style.background='var(--bg)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#c07830"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.74a4.85 4.85 0 0 1-1.01-.05z"/></svg>
+        <div>
+          <p style="font-size: 0.82rem; font-weight: 500; color: var(--text); margin: 0;">TikTok</p>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0;">@vent.vyb</p>
+        </div>
+      </a>
+
+      <a href="mailto:ventvyb@gmail.com" style="text-decoration: none; background: var(--bg); padding: 1.5rem 1.8rem; display: flex; align-items: center; gap: 1rem; transition: background 0.3s;" onmouseover="this.style.background='rgba(192,120,48,0.06)'" onmouseout="this.style.background='var(--bg)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c07830" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        <div>
+          <p style="font-size: 0.82rem; font-weight: 500; color: var(--text); margin: 0;">Email</p>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0;">ventvyb@gmail.com</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div style="text-align: center; padding-top: 2rem;">
+      <p style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.15; color: var(--text); margin-bottom: 2rem;">You've held it in<br/>long enough.<br/><em style="color: var(--amber-light);">Talk to us.</em></p>
+      <a href="https://forms.gle/DHAd3WGhCjCm5wqk8" target="_blank" class="btn-primary">Book your free call</a>
+      <p style="margin-top: 1.5rem; font-size: 0.76rem; color: var(--text-muted);">Anonymous · English · Men only · Pay only if it helped</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span class="logo-sm">VENTVYB</span>
+  <div style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-bottom: 0.8rem; flex-wrap: wrap;">
+    <a href="https://www.instagram.com/ventvyb/" target="_blank" style="color: var(--text-muted); font-size: 0.72rem; text-decoration: none; letter-spacing: 0.08em; transition: color 0.3s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-muted)'">Instagram</a>
+    <span style="color: var(--text-muted);">·</span>
+    <a href="https://x.com/VENTVYB" target="_blank" style="color: var(--text-muted); font-size: 0.72rem; text-decoration: none; letter-spacing: 0.08em; transition: color 0.3s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-muted)'">X (Twitter)</a>
+    <span style="color: var(--text-muted);">·</span>
+    <a href="https://www.tiktok.com/@vent.vyb" target="_blank" style="color: var(--text-muted); font-size: 0.72rem; text-decoration: none; letter-spacing: 0.08em; transition: color 0.3s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-muted)'">TikTok</a>
+    <span style="color: var(--text-muted);">·</span>
+    <a href="https://www.reddit.com/user/VENTVYB/" target="_blank" style="color: var(--text-muted); font-size: 0.72rem; text-decoration: none; letter-spacing: 0.08em; transition: color 0.3s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-muted)'">Reddit</a>
+    <span style="color: var(--text-muted);">·</span>
+    <a href="mailto:ventvyb@gmail.com" style="color: var(--text-muted); font-size: 0.72rem; text-decoration: none; letter-spacing: 0.08em; transition: color 0.3s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-muted)'">ventvyb@gmail.com</a>
+  </div>
+  <p>A space for men who need to be heard. · English speaking · Worldwide</p>
+</footer>
+
+</body>
+</html>
